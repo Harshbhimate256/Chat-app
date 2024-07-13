@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import GenderCheckbox from "./GenderCheckbox";
+import { Link } from "react-router-dom";
+import useSignup from "../../components/hooks/useSignup.js";
 
 const SignUp = () => {
+
+  const [inputs, setInputs]  = useState({
+    fullname: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    gender: ''
+  })
+  const {loading,signup}  = useSignup()
+
+  const handleCheckBox = (gender) =>{
+    setInputs({...inputs, gender})
+  }
+
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    await signup(inputs);
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-w-[450px] mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
@@ -9,7 +30,7 @@ const SignUp = () => {
           SignUp to
           <span className="text-black"> Messenger</span>
         </h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="my-4 flex flex-col gap-5">
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -20,7 +41,9 @@ const SignUp = () => {
               >
                 <path d="M11 14.0619V20H13V14.0619C16.9463 14.554 20 17.9204 20 22H4C4 17.9204 7.05369 14.554 11 14.0619ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13Z"></path>
               </svg>
-              <input type="text" className="grow" placeholder="Full name" />
+              <input type="text" className="grow" placeholder="Full name" 
+              value={inputs.fullname}
+              onChange={(e)=> setInputs({...inputs , fullname: e.target.value})}/>
             </label>
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -31,7 +54,9 @@ const SignUp = () => {
               >
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
               </svg>
-              <input type="text" className="grow" placeholder="Username" />
+              <input type="text" className="grow" placeholder="Username" 
+              value={inputs.username}
+              onChange={(e)=> setInputs({...inputs , username: e.target.value})}/>
             </label>
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -46,7 +71,9 @@ const SignUp = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              <input type="password" className="grow" placeholder="Password" />
+              <input type="password" className="grow" placeholder="Password"
+              value={inputs.password}
+              onChange={(e)=> setInputs({...inputs , password: e.target.value})} />
             </label>
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -65,10 +92,14 @@ const SignUp = () => {
                 type="password"
                 className="grow"
                 placeholder="Confirm Password"
+                value={inputs.confirmPassword}
+                onChange={(e)=> 
+                setInputs({...inputs , confirmPassword: e.target.value})}
               />
             </label>
-            <GenderCheckbox/>
-            <button className="btn btn-outline">Sign Up</button>
+            <GenderCheckbox onCheckBoxChange = {handleCheckBox} selectedGender={inputs.gender}/>
+            <button className="btn btn-outline" disabled={loading}>{loading? <span className="loading loading-spinner"></span> : "Sign Up" }</button>
+            <Link to="/login" className="text-md hover:underline hover:text-blue-400 font-serif inline-block">Already have an account?</Link>
           </div>
         </form>
       </div>
