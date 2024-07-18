@@ -37,7 +37,8 @@ export const signup = async(req,res)=>{
             _id:newUser._id,
             fullname:newUser.fullname,
             username:newUser.username,
-            ProfilePic:newUser.profilePic
+            ProfilePic:newUser.profilePic,
+            message:"user signup successfull"
         })
         }else{
             res.status(400).json({error:"invalid user data"})
@@ -61,7 +62,8 @@ export const login =async(req,res)=>{
             _id:user._id,
             fullname:user.fullname,
             username:user.username,
-            ProfilePic:user.profilePic
+            ProfilePic:user.profilePic,
+            message:"user logged in successfully"
         })
     }catch(error){
         console.log("error in login controller",error.message)
