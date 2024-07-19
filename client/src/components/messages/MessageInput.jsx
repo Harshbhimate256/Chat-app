@@ -14,7 +14,7 @@ const MessageInput = () => {
   return (
     <form className="px-4 my-1" onSubmit={handleSubmit}>
       <div className="w-full flex">
-        <textarea
+        <input type='text'
           placeholder="Type here"
           className="text-lg textarea textarea-bordered w-[85%] resize-none no-scrollbar"
           rows="1"
